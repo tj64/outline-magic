@@ -1,9 +1,10 @@
 ;;; outline-magic.el --- outline mode extensions for Emacs
 
-;; Copyright (C) 2002 Carsten Dominik
+;; Copyright (C) 2002, 2013 Carsten Dominik, Thorsten Jolitz
 
-;; Maintainer: Carsten Dominik <dominik@science.uva.nl>
-;; Version: 0.9
+;; Original Maintainer: Carsten Dominik <dominik@science.uva.nl>
+;; New Maintainer: Thorsten Jolitz <tjolitz AT gmail DOT com>
+;; Version: 0.9.1
 ;; Keywords: outlines
 
 ;; This file is not part of GNU Emacs.
@@ -506,7 +507,7 @@ TEST nil means, really replace old heading with new one."
 	  (beginning-of-line 1)
 	  (or (looking-at (concat "[ \t]*\\(" (regexp-quote head) "\\)"))
 	      (error "Please contact maintainer"))
-	  (replace-match newhead t t nil 1)))))
+	  (replace-match (outline-cleanup-match newhead) t t nil 1)))))
 
 (defun outline-headings-atom (headlist)
   "Use the list created by `outline-headings-list' and check if all
