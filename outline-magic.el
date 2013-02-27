@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2013 Carsten Dominik, Thorsten Jolitz
 
-;; Original Maintainer: Carsten Dominik <dominik@science.uva.nl>
-;; New Maintainer: Thorsten Jolitz <tjolitz AT gmail DOT com>
+;; Author: Carsten Dominik <dominik@science.uva.nl>
+;; Maintainer: Thorsten Jolitz <tjolitz AT gmail DOT com>
 ;; Version: 0.9.1
 ;; Keywords: outlines
 
