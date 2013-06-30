@@ -267,7 +267,13 @@ them set by set, separated by a nil element.  See the example for
 	(setq this-command 'outline-cycle-showall))
        (t
 	;; Default action: go to overview
-	(hide-sublevels 1)
+	(let ((toplevel (cond
+			 (current-prefix-arg (prefix-numeric-value current-prefix-arg))
+			 ((save-excursion (beginning-of-line)
+					  (looking-at outline-regexp))
+			  (max 1 (funcall outline-level)))
+			 (t 1))))
+	  (hide-sublevels toplevel))
 	(message "OVERVIEW")
 	(setq this-command 'outline-cycle-overview))))
 
