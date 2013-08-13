@@ -339,16 +339,18 @@ Essentially a much simplified version of `next-line'."
 (defun outline-move-subtree-up (&optional arg)
   "Move the currrent subtree up past ARG headlines of the same level."
   (interactive "p")
-  (outline-move-subtree-down (- arg)))
+  (let ((headers (or arg 1)))
+    (outline-move-subtree-down (- headers))))
 
 (defun outline-move-subtree-down (&optional arg)
   "Move the currrent subtree down past ARG headlines of the same level."
   (interactive "p")
-  (let ((re (concat "^" outline-regexp))
-	(movfunc (if (> arg 0) 'outline-get-next-sibling 
+  (let* ((headers (or arg 1))
+        (re (concat "^" outline-regexp))
+	(movfunc (if (> headers 0) 'outline-get-next-sibling 
 		   'outline-get-last-sibling))
 	(ins-point (make-marker))
-	(cnt (abs arg))
+	(cnt (abs headers))
 	beg end txt)
     ;; Select the tree
     (outline-back-to-heading)
@@ -363,7 +365,7 @@ Essentially a much simplified version of `next-line'."
 	  (progn (goto-char beg)
 		 (error "Cannot move past superior level")))
       (setq cnt (1- cnt)))
-    (if (> arg 0)
+    (if (> headers 0)
 	;; Moving forward - still need to move over subtree
 	(progn (outline-end-of-subtree) 
 	       (if (= (char-after) ?\n) (forward-char 1))))
