@@ -381,10 +381,10 @@ Essentially a much simplified version of `next-line'."
 When the region is active in transient-mark-mode, all headlines in the
 region are changed.  Otherwise the current subtree is targeted. Note that
 after each application of the command the scope of \"current subtree\"
-may have changed." 
+may have changed."
   (interactive "p")
-  (outline-change-level (- arg)))
-
+  (let ((delta (or arg 1)))
+    (outline-change-level (- delta))))
 
 (defun outline-demote (&optional arg)
   "Increase the level of an outline-structure by ARG levels.
@@ -393,7 +393,8 @@ region are changed.  Otherwise the current subtree is targeted. Note that
 after each application of the command the scope of \"current subtree\"
 may have changed."
   (interactive "p")
-  (outline-change-level arg))
+  (let ((delta (or arg 1)))
+    (outline-change-level delta)))
 
 (defun outline-change-level (delta)
   "Workhorse for `outline-demote' and `outline-promote'."
