@@ -270,11 +270,19 @@ them set by set, separated by a nil element.  See the example for
 	(let ((toplevel (cond
 			 (current-prefix-arg (prefix-numeric-value current-prefix-arg))
 			 ((save-excursion (beginning-of-line)
-					  (looking-at outline-regexp))
+                                          ;; documentation for looking-at says
+                                          ;; "Return t if _text after point_ matches regular expression REGEXP."
+                                          ;; This is not always true when calling outline-cycle
+                                          ;; at the beginning-of-buffer --- while "At a heading" it is true.
+                                          ;; outline-regexp usually does not contain additional \n's 
+                                          ;; in a standard semantics. For these backgrounds 
+                                          ;; (looking-at outline-regexp) ignores the first headline and
+                                          ;; often end up calling (hide-sublevels 1).
+					  (search-forward-regexp outline-regexp))
 			  (max 1 (funcall outline-level)))
 			 (t 1))))
 	  (hide-sublevels toplevel))
-	(message "OVERVIEW")
+        (message "OVERVIEW")
 	(setq this-command 'outline-cycle-overview))))
 
      ((save-excursion (beginning-of-line 1) (looking-at outline-regexp))
@@ -314,6 +322,16 @@ them set by set, separated by a nil element.  See the example for
      (t
       ;; Not at a headline: Do indent-relative
       (outline-back-to-heading))))))
+
+(defun outline-cycle-all ()
+  "Back to the beginning of line, then call outline-cycle.
+Below defines the behavior similar to org-mode
+ (define-key outline-minor-mode-map (kbd \"<backtab>\") 'outline-cycle-all)
+ ; or
+ ; (define-key outline-minor-mode-map (kbd \"<Shift-tab>\") 'outline-cycle-all)
+ ; if backtab did not work for you "
+  (interactive)
+  (outline-cycle '(4)))
 
 (defun outline-cycle-emulate-tab ()
   "Check if TAB should be emulated at the current position."
