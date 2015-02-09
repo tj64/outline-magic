@@ -39,12 +39,12 @@
 ;; Byte-compile outline-magic.el, put it on the load path and copy the
 ;; following into .emacs (adapting keybindings to your own preferences)
 ;;
-;; (add-hook 'outline-mode-hook 
-;;           (lambda () 
+;; (add-hook 'outline-mode-hook
+;;           (lambda ()
 ;;             (require 'outline-cycle)))
-;;             
-;; (add-hook 'outline-minor-mode-hook 
-;;           (lambda () 
+;;
+;; (add-hook 'outline-minor-mode-hook
+;;           (lambda ()
 ;;             (require 'outline-magic)
 ;;             (define-key outline-minor-mode-map [(f10)] 'outline-cycle)))
 ;;
@@ -63,7 +63,7 @@
 ;; cursor location:
 ;;
 ;; 1. When point is at the beginning of the buffer, `outline-cycle'
-;;    cycles the entire buffer through 3 different states: 
+;;    cycles the entire buffer through 3 different states:
 ;;      - OVERVIEW: Only top-level headlines are shown.
 ;;      - CONTENTS: All headlines are shown, but no body text.
 ;;      - SHOW ALL: Everything is shown.
@@ -90,7 +90,7 @@
 ;;
 ;;                                 move up
 ;;                                    ^
-;;                        promote  <- | ->  demote 
+;;                        promote  <- | ->  demote
 ;;                                    v
 ;;                                move down
 ;;
@@ -107,10 +107,10 @@
 ;; For example, `outline-move-subtree-down' applied with the cursor at the
 ;; beginning of the "* Level 1b" line will change the tree like this:
 ;;
-;;   * Level 1a                         * Level 1a        
-;;   * Level 1b         ===\            * Level 1c  
-;;   ** Level 2b        ===/            * Level 1b  
-;;   * Level 1c                         ** Level 2b   
+;;   * Level 1a                         * Level 1a
+;;   * Level 1b         ===\            * Level 1c
+;;   ** Level 2b        ===/            * Level 1b
+;;   * Level 1c                         ** Level 2b
 ;;
 ;; Promotion/Demotion
 ;; - - - - - - - - - -
@@ -120,10 +120,10 @@
 ;; applied with the cursor at the beginning of the "* Level 1b" line will
 ;; change the tree like this:
 ;;
-;;   * Level 1a                         * Level 1a        
-;;   * Level 1b         ===\            ** Level 1b  
-;;   ** Level 2b        ===/            *** Level 2  
-;;   * Level 1c                         * Level 1c   
+;;   * Level 1a                         * Level 1a
+;;   * Level 1b         ===\            ** Level 1b
+;;   ** Level 2b        ===/            *** Level 2
+;;   * Level 1c                         * Level 1c
 ;;
 ;; The reverse operation is `outline-promote'.  Note that the scope of
 ;; "current subtree" may be changed after a promotion.  To change all
@@ -165,7 +165,7 @@
 ;;     (lambda ()
 ;;      (setq outline-promotion-headings
 ;;       '("@chapter" "@section" "@subsection" "@subsubsection" nil
-;;         "@unnumbered" "@unnumberedsec" "@unnumberedsubsec" 
+;;         "@unnumbered" "@unnumberedsec" "@unnumberedsubsec"
 ;;                                       "@unnumberedsubsubsec" nil
 ;;         "@appendix" "@appendixsec" "@appendixsubsec"
 ;;                                         "@appendixsubsubsec" nil
@@ -173,7 +173,7 @@
 ;;
 ;;    If people find this useful enough, maybe the maintainers of the
 ;;    modes can be persuaded to set `outline-promotion-headings'
-;;    already as part of the mode setup. 
+;;    already as part of the mode setup.
 ;;
 ;;  Compatibility:
 ;;  --------------
@@ -199,14 +199,14 @@ t      Everywhere except in headlines"
 		 (const :tag "Only in completely white lines" white)
 		 (const :tag "Everywhere except in headlines" t)
 		 ))
-		 
+
 (defvar outline-promotion-headings nil
   "A sorted list of headings used for promotion/demotion commands.
 Set this to a list of headings as they are matched by `outline-regexp',
-top-level heading first.  If a mode or document needs several sets of 
+top-level heading first.  If a mode or document needs several sets of
 outline headings (for example numbered and unnumbered sections), list
 them set by set, separated by a nil element.  See the example for
-`texinfo-mode' in the file commentary.") 
+`texinfo-mode' in the file commentary.")
 (make-variable-buffer-local 'outline-promotion-headings)
 
 (defun outline-cycle (&optional arg)
@@ -246,7 +246,7 @@ them set by set, separated by a nil element.  See the example for
        ((eq last-command 'outline-cycle-overview)
 	;; We just created the overview - now do table of contents
 	;; This can be slow in very large buffers, so indicate action
-	(message "CONTENTS...") 
+	(message "CONTENTS...")
 	(save-excursion
 	  ;; Visit all headings and show their offspring
 	  (goto-char (point-max))
@@ -289,7 +289,7 @@ them set by set, separated by a nil element.  See the example for
 	  (outline-end-of-subtree)            (setq eos (point)))
 	;; Find out what to do next and set `this-command'
 	(cond
-	 ((= eos eoh) 
+	 ((= eos eoh)
 	  ;; Nothing is hidden behind this heading
 	  (message "EMPTY ENTRY"))
 	 ((>= eol eos)
@@ -302,7 +302,7 @@ them set by set, separated by a nil element.  See the example for
 	  ;; We just showed the children, now show everything.
 	  (show-subtree)
 	  (message "SUBTREE"))
-	 (t 
+	 (t
 	  ;; Default action: hide the subtree.
 	  (hide-subtree)
 	  (message "FOLDED")))))
@@ -333,7 +333,7 @@ Essentially a much simplified version of `next-line'."
   (while (and (not (eobp))
 	      (get-char-property (1- (point)) 'invisible))
     (beginning-of-line 2)))
-  
+
 ;;; Vertical tree motion
 
 (defun outline-move-subtree-up (&optional arg)
@@ -347,7 +347,7 @@ Essentially a much simplified version of `next-line'."
   (interactive "p")
   (let* ((headers (or arg 1))
         (re (concat "^" outline-regexp))
-	(movfunc (if (> headers 0) 'outline-get-next-sibling 
+	(movfunc (if (> headers 0) 'outline-get-next-sibling
 		   'outline-get-last-sibling))
 	(ins-point (make-marker))
 	(cnt (abs headers))
@@ -361,13 +361,13 @@ Essentially a much simplified version of `next-line'."
     ;; Find insertion point, with error handling
     (goto-char beg)
     (while (> cnt 0)
-      (or (funcall movfunc) 
+      (or (funcall movfunc)
 	  (progn (goto-char beg)
 		 (error "Cannot move past superior level")))
       (setq cnt (1- cnt)))
     (if (> headers 0)
 	;; Moving forward - still need to move over subtree
-	(progn (outline-end-of-subtree) 
+	(progn (outline-end-of-subtree)
 	       (if (= (char-after) ?\n) (forward-char 1))))
     (move-marker ins-point (point))
     (setq txt (buffer-substring beg end))
@@ -465,7 +465,7 @@ list, or an alist derived from scanning the buffer."
 	      ;; We have two entries for the same level.
 	      (add-to-list 'nonunique level))
 	  (add-to-list 'seen level))
-	(if nonunique 
+	(if nonunique
 	    (error "Cannot promote/demote: non-unique headings at level %s\nYou may want to configure `outline-promotion-headings'."
 		   (mapconcat 'int-to-string nonunique ","))))))
     ;; OK, return the list
@@ -524,7 +524,7 @@ headings are polymers of a single character, e.g. \"*\".
 If yes, return this character."
   (if (consp (car headlist))
       ;; this is an alist - it makes sense to check for atomic structure
-      (let ((re (concat "\\`" 
+      (let ((re (concat "\\`"
 			(regexp-quote (substring (car (car headlist)) 0 1))
 			"+\\'")))
 	(if (not (delq nil (mapcar (lambda (x) (not (string-match re (car x))))
