@@ -209,6 +209,7 @@ them set by set, separated by a nil element.  See the example for
 `texinfo-mode' in the file commentary.")
 (make-variable-buffer-local 'outline-promotion-headings)
 
+;;;###autoload
 (defun outline-cycle (&optional arg)
   "Visibility cycling for outline(-minor)-mode.
 
@@ -325,6 +326,7 @@ them set by set, separated by a nil element.  See the example for
       t
     outline-cycle-emulate-tab))
 
+;;;###autoload
 (defun outline-next-line ()
   "Forward line, but mover over invisible line ends.
 Essentially a much simplified version of `next-line'."
@@ -336,12 +338,14 @@ Essentially a much simplified version of `next-line'."
 
 ;;; Vertical tree motion
 
+;;;###autoload
 (defun outline-move-subtree-up (&optional arg)
   "Move the currrent subtree up past ARG headlines of the same level."
   (interactive "p")
   (let ((headers (or arg 1)))
     (outline-move-subtree-down (- headers))))
 
+;;;###autoload
 (defun outline-move-subtree-down (&optional arg)
   "Move the currrent subtree down past ARG headlines of the same level."
   (interactive "p")
@@ -378,6 +382,7 @@ Essentially a much simplified version of `next-line'."
 
 ;;; Promotion and Demotion
 
+;;;###autoload
 (defun outline-promote (&optional arg)
   "Decrease the level of an outline-structure by ARG levels.
 When the region is active in transient-mark-mode, all headlines in the
@@ -388,6 +393,7 @@ may have changed."
   (let ((delta (or arg 1)))
     (outline-change-level (- delta))))
 
+;;;###autoload
 (defun outline-demote (&optional arg)
   "Increase the level of an outline-structure by ARG levels.
 When the region is active in transient-mark-mode, all headlines in the
