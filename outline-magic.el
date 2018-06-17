@@ -237,7 +237,8 @@ them set by set, separated by a nil element.  See the example for
     ; Run `outline-cycle' as if at the top of the buffer.
     (save-excursion
       (goto-char (point-min))
-      (outline-cycle nil)))
+			(let ((current-prefix-argument nil))
+      (outline-cycle nil))))
 
    (t
     (cond
