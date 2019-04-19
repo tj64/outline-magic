@@ -356,6 +356,9 @@ Essentially a much simplified version of `next-line'."
 		   'outline-get-last-sibling))
 	(ins-point (make-marker))
 	(cnt (abs headers))
+	(folded (save-match-data
+		  (outline-end-of-heading)
+		  (outline-invisible-p)))
 	beg end txt)
     ;; Select the tree
     (outline-back-to-heading)
@@ -379,6 +382,7 @@ Essentially a much simplified version of `next-line'."
     (delete-region beg end)
     (insert txt)
     (goto-char ins-point)
+    (if folded (outline-hide-subtree))
     (move-marker ins-point nil)))
 
 ;;; Promotion and Demotion
