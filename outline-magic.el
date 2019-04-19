@@ -351,11 +351,13 @@ Essentially a much simplified version of `next-line'."
   "Move the currrent subtree down past ARG headlines of the same level."
   (interactive "p")
   (let* ((headers (or arg 1))
-        (re (concat "^" outline-regexp))
 	(movfunc (if (> headers 0) 'outline-get-next-sibling
 		   'outline-get-last-sibling))
 	(ins-point (make-marker))
 	(cnt (abs headers))
+	(folded (save-match-data
+		  (outline-end-of-heading)
+		  (outline-invisible-p)))
 	beg end txt)
     ;; Select the tree
     (outline-back-to-heading)
@@ -379,6 +381,7 @@ Essentially a much simplified version of `next-line'."
     (delete-region beg end)
     (insert txt)
     (goto-char ins-point)
+    (if folded (outline-hide-subtree))
     (move-marker ins-point nil)))
 
 ;;; Promotion and Demotion
